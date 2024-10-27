@@ -1,0 +1,16 @@
+//Blink LED
+
+#include<LPC17xx.h>
+int main(){
+  int i;
+  SystemInit();
+  SystemCoreClockUpdate();
+  LPC_PINCON->PINSEL0=0; //GPIO CONFIG
+  LPC_GPIO0->FIODIR=1<<4; //Output at P0.4
+  while(1){
+    LPC_GPIO0->FIOSET=1<<4;
+    for(i=0;i<3000;i++);
+    LPC_GPIO0->FIOCLR=1<<4;
+    for(i=0;i<3000;i++);
+}
+}
