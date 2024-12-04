@@ -1,0 +1,171 @@
+---
+title: "Implementation of Linear regression"
+output: html_notebook
+---
+
+
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+setwd('C:\\Users\\Shreeya\\Desktop')
+```
+
+```{r}
+pdata=read.csv('pizza_delivery.csv')
+```
+```{r}
+summary(pdata)
+```
+```{r}
+# Linear model
+#Thecommand lm(Y∼X)fits a linear model and provides the estimates of ˆα and ˆβ.
+
+lm(bill~pizzas, data=pdata)
+
+#draw the regression line onto a scatter plot using the command abline
+ # Create the scatter plot
+plot(pdata$pizzas, pdata$bill, 
+     xlab = "Pizzas", 
+     ylab = "Total Bill", 
+     main = "Linear Regression: Bill vs Pizzas")
+
+# Manually add the regression line using the coefficients
+abline(a=42.8285, b=-0.3328, col="blue", lwd=2)
+```
+
+```{r}
+#Goodness of fit R^2 and interception of LM
+summary(lm(bill~pizzas, data=pdata))
+```
+```{r}
+#LR on Binary Covariate
+lm(bill~free_wine, data=pdata)
+```
+
+```{r}
+plot(pdata$free_wine, pdata$bill, 
+     xlab = "Free Wine", 
+     ylab = "Total Bill", 
+     main = "Linear Regression: Bill vs Free wine")
+abline(a=41.657, b=6.074, col="blue", lwd=1)
+
+```
+```{r}
+#LR With transformed covariate
+# Assuming your dataset is loaded as pdata
+model <- lm(bill ~ I(sqrt(free_wine)), data=pdata)
+
+# Display the summary of the model
+summary(model)
+
+plot(pdata$free_wine, pdata$bill, 
+     xlab = "Free Wine", 
+     ylab = "Total Bill", 
+     main = "Linear Regression: Bill vs Free wine")
+abline(a=41.657, b=6.074, col="blue", lwd=1)
+```
+```{r}
+model <- lm(bill ~ I(free_wine^2), data=pdata)
+
+# Display the summary of the model
+summary(model)
+```
+```{r}
+#LR with multiple covariates
+ # Assuming your dataset is loaded as pdata
+model <- lm(time ~ bill + operator, data=pdata)
+
+# Display the summary of the model
+summary(model)
+
+```
+
+```{r}
+#categorical covariates
+
+# Manually create dummy variables
+East <- as.numeric(pdata$branch == 'East')
+West <- as.numeric(pdata$branch == 'West')
+
+# Fit the model using the dummy variables
+model1 <- lm(time ~ East + West, data = pdata)
+
+# Display the summary of the model
+summary(model1)
+
+
+
+```
+
+```{r}
+# Option 2a: Treat 'branch' as a factor, letting R automatically handle dummy coding
+model2a <- lm(time ~ as.factor(pdata$branch), data = pdata)
+
+# Display the summary of the model
+summary(model2a)
+
+# Option 2b: Use 'branch' directly if it's already a factor
+model2b <- lm(time ~ branch, data = pdata)
+
+# Display the summary of the model
+summary(model2b)
+
+```
+```{r}
+#Transformations
+
+# Fit a linear regression model with free_wine and its square
+model_quad <- lm(bill ~ free_wine + I(free_wine^2), data = pdata)
+
+# Fit a linear regression model with free_wine, its square, and its cube
+model_cubic <- lm(bill ~ free_wine + I(free_wine^2) + I(free_wine^3), data = pdata)
+
+# Display the summaries
+summary(model_quad)
+summary(model_cubic)
+
+# Now plot the data and the models
+
+# Scatter plot of the data
+plot(pdata$free_wine, pdata$bill, 
+     xlab = "Free Wine", 
+     ylab = "Total Bill", 
+     main = "Polynomial Regression: Bill vs Free Wine",
+     pch = 16, col = "darkgray")
+
+# Predict values for a range of free_wine values
+free_wine_values <- seq(min(pdata$free_wine), max(pdata$free_wine), length.out = 100)
+
+# Predicted bill for quadratic model
+predicted_bill_quad <- predict(model_quad, newdata = data.frame(free_wine = free_wine_values))
+
+# Predicted bill for cubic model
+predicted_bill_cubic <- predict(model_cubic, newdata = data.frame(free_wine = free_wine_values))
+
+# Plot the quadratic model
+lines(free_wine_values, predicted_bill_quad, col = "blue", lwd = 2, lty = 2) # Dashed blue line for quadratic
+
+# Plot the cubic model
+lines(free_wine_values, predicted_bill_cubic, col = "red", lwd = 2) # Solid red line for cubic
+
+# Add a legend
+legend("topright", legend = c("Quadratic Model", "Cubic Model"), 
+       col = c("blue", "red"), lty = c(2, 1), lwd = 2)
+
+```
+```{r}
+# Example of including the dataset explicitly
+ms <- lm(time ~ branch + bill + operator + driver + temperature + pizzas, data = pdata)
+
+# Perform stepwise regression
+stepAIC(ms, direction = 'back')
+
+```
+```{r}
+
+
+```
+

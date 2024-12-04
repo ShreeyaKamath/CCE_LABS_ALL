@@ -1,0 +1,217 @@
+---
+title: 'Practical 4: Distributions'
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+Shreeya Kamath
+220953004
+CCE C
+
+
+Uniform Distribution
+```{r}
+library(ggplot2) 
+ 
+# Function to plot Poisson distribution 
+plot_uni <- function(a,b,l) { 
+  # Generate a sequence of possible values for the number of events (k) 
+  k_values <- seq(-4,4,length=100)  # Use 3 times lambda to cover a broad range 
+   
+  # Calculate the cdf of Poisson probability for each value of k 
+  uni_prob <- dunif(k_values, min=-3, max=3) 
+   
+  # Create a data frame for plotting 
+ uni_data <- data.frame(k = k_values, Probability = uni_prob) 
+   
+  # Plot the Poisson distribution 
+  ggplot(uni_data, aes(x = k, y = Probability)) + 
+    geom_line(color = "blue") + 
+   # geom_point(color = "red", size = 2) + 
+    labs(title = paste("Uniform Distribution"), 
+         x = "Number of Events (k)", 
+         y = "Probability") + 
+    theme_minimal() 
+   
+#  plot(k_values,uni_prob, type = 'l') 
+} 
+ 
+plot_cdf_uni <- function(a,b,l) { 
+  # Generate a sequence of possible values for the number of events (k) 
+  k_values <- seq(a,b,length=l)  # Use 3 times lambda to cover a broad range 
+   
+  # Calculate the cdf of Poisson probability for each value of k 
+  uni_prob <- punif(k_values, min=-3, max=3) 
+   
+  # Create a data frame for plotting 
+  uni_data <- data.frame(k = k_values, Probability = uni_prob) 
+   
+  # Plot the Poisson distribution
+   ggplot(uni_data, aes(x = k, y = Probability)) + 
+    geom_line(color = "blue") + 
+    # geom_point(color = "red", size = 2) + 
+    labs(title = paste("Uniform Distribution"), 
+         x = "Number of Events (k)", 
+         y = "Probability") + 
+    theme_minimal() 
+} 
+ 
+plot_cdf_uni(-4,4,100) 
+#probability of x=1 c 
+p_vlue<-dunif(1, min=-3, max=3) 
+print(p_vlue) 
+ 
+ 
+#probability of x<=1 cumulative 
+p_vlue<-punif(1, min=-3, max=3) 
+print(p_vlue) 
+```
+
+
+
+Binomial Distribution
+```{r}
+library(ggplot2) 
+ 
+# Parameters 
+n <- 20 
+p <- 0.7 
+ 
+# Generate a sequence of possible values for the number of successes (k) 
+k_values <- 0:n 
+# Calculate the  probabilities for each k 
+p_values<-dbinom(k_values, size = n, prob = p) 
+#Creating d dataframe 
+p_data= data.frame(k = k_values, Probability = p_values) 
+#Plotting the probabilities 
+ggplot(p_data, aes(x = k, y = Probability)) + 
+  geom_line(color = "blue") + 
+  #geom_point(color = "red", size = 2) + 
+  labs(title = paste("Uniform Distribution"), 
+       x = "Number of Events (k)", 
+       y = "Probability") + 
+  theme_minimal() 
+ 
+# Calculate the cumulative probabilities for each k 
+cdf_values <- pbinom(k_values, size = n, prob = p) 
+ 
+# Create a data frame for plotting 
+cdf_data <- data.frame(k = k_values, CDF = cdf_values) 
+ 
+# Plot the CDF of the Binomial distribution 
+ggplot(cdf_data, aes(x = k, y = CDF)) + 
+  geom_line(color = "blue") + 
+  geom_point(color = "red", size = 2) + 
+  labs(title = "CDF of Binomial Distribution (n = 20, p = 0.7)", 
+       x = "Number of Successes (k)", 
+       y = "Cumulative Probability") + 
+  theme_minimal() 
+ 
+#probability of x=10 cumulative 
+p_vlue<-dbinom(10, size =20, prob = p) 
+print(p_vlue) 
+ 
+#probability of x<=10 cumulative 
+p_vlue<-pbinom(10, size =20, prob = p) 
+print(p_vlue) 
+```
+
+
+Poisson's Distribution
+```{r}
+library(ggplot2) 
+ 
+# Function to plot Poisson distribution 
+plot_poisson <- function(lambda) { 
+  # Generate a sequence of possible values for the number of events (k) 
+  k_values <- 0:(lambda * 3)  # Use 3 times lambda to cover a broad range 
+   
+  # Calculate the Poisson probability for each value of k 
+  poisson_prob <- dpois(k_values, lambda) 
+   
+  # Create a data frame for plotting 
+  poisson_data <- data.frame(k = k_values, Probability = poisson_prob) 
+   
+  # Plot the Poisson distribution 
+  ggplot(poisson_data, aes(x = k, y = Probability)) + 
+    geom_bar(stat = "identity", fill = "lightblue", color = "black", width = 0.7) + 
+    labs(title = paste("Poisson Distribution (λ =", lambda, ")"), 
+         x = "Number of Events (k)", 
+         y = "Probability") + 
+    theme_minimal() 
+} 
+ 
+# Function to plot Poisson distribution 
+plot_cdfpoisson <- function(lambda) { 
+  # Generate a sequence of possible values for the number of events (k) 
+  k_values <- 0:(lambda * 3)  # Use 3 times lambda to cover a broad range 
+   
+  # Calculate the cdf of Poisson probability for each value of k 
+  poisson_prob <- ppois(k_values, lambda) 
+   
+  # Create a data frame for plotting 
+  poisson_data <- data.frame(k = k_values, Probability = poisson_prob) 
+   
+  # Plot the Poisson distribution 
+  ggplot(poisson_data, aes(x = k, y = Probability)) + 
+    geom_line(color = "blue") + 
+    geom_point(color = "red", size = 2) + 
+    labs(title = paste("CDF Poisson Distribution (λ =", lambda, ")"), 
+         x = "Number of Events (k)", 
+         y = "Probability") + 
+    theme_minimal() 
+} 
+ 
+# Plot for lambda = 2 
+plot_poisson(5) 
+ 
+#plot_cdfpoisson(2) 
+# Plot for lambda = 5 
+#plot_cdfpoisson(5) 
+ 
+# Plot for lambda = 10 
+#plot_poisson(10) 
+#probability of 5 when lamada is 3 
+dpois(5, 3) 
+#CDF of 5 when lamada is 3 
+ppois(5, 3)
+```
+
+Normal Distribution
+
+```{r}
+library(ggplot2) 
+ 
+# Define mean and standard deviation 
+mu <- 70   # Mean 
+sigma <- 3 # Standard deviation 
+ 
+# Generate a sequence of values (for x-axis) 
+x <- seq(mu - 4*sigma, mu + 4*sigma, length = 100) 
+ 
+# Calculate the corresponding PDF values 
+y <- dnorm(x, mean = mu, sd = sigma) 
+ 
+# Plot the PDF 
+plot(x, y, type = "l", lwd = 2, col = "blue", 
+     xlab = "Height (inches)", ylab = "Density", 
+     main = "Normal Distribution (Mean = 70, SD = 3)") 
+ 
+# Add a grid for better visualization 
+grid() 
+ 
+# Calculate P(68 <= X <= 72) 
+p <- pnorm(72, mean = mu, sd = sigma) - pnorm(68, mean = mu, sd = sigma) 
+print(p) # Output will be approximately 0.4972 
+ 
+ 
+# Calculate the PDF value at X = 68 
+pdf_value <- dnorm(68, mean = mu, sd = sigma) 
+print(pdf_value) # Output will be approximately 0.188 
+
+```
+
+

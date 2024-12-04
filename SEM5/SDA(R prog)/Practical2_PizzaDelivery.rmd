@@ -1,0 +1,188 @@
+---
+title: 'Practical 2 : Practice for Module 1 : Pizza Delivery'
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  word_document: default
+  pdf_document: default
+---
+Name : Shreeya Kamath
+Reg no : 220953004
+Class : CCE C
+
+
+```{r}
+library(dplyr)
+```
+```{r}
+library(psych)
+setwd('C:\\Users\\Shreeya\\Desktop')
+```
+```{r}
+pdata=read.csv('pizza_delivery.csv')
+```
+```{r}
+summary(pdata)
+```
+```{r}
+head(pdata)
+
+```
+```{r}
+nrow(pdata)
+
+```
+```{r}
+ncol(pdata)
+```
+```{r}
+nrow(na.omit(pdata))
+```
+Frequencies :
+```{r}
+#Absolute Frequencies of branch
+table(pdata$branch)
+```
+```{r}
+#Relative frequencies of branch
+table(pdata$branch)/length(pdata$branch)
+```
+```{r}
+#Absolute Frequencies of drivers
+table(pdata$driver)
+
+```
+```{r}
+#Relative frequencies of drivers
+table(pdata$driver)/length(pdata$driver)
+```
+```{r}
+#Absolute frequency for operators
+table(pdata$operator)
+```
+
+```{r}
+#Relative frequencies for operators
+table(pdata$operator)/length(pdata$operator)
+```
+
+
+Plotting ECDF
+```{r}
+plot(ecdf(table(pdata$branch)),xlab="Branch",ylab="ECDF",main="ECDF plot for Branch",col=c('blue','green','red'))
+```
+```{r}
+plot(ecdf(table(pdata$operator)),xlab="Operator",ylab="ECDF",main="ECDF plot for Operator",col=c('blue','green'))
+```
+```{r}
+plot(ecdf(table(pdata$discount_customer)),xlab="Discount_Customer",ylab="ECDF",main="ECDF plot for Discount_Customer",col=c('green','red'))
+```
+```{r}
+plot(ecdf(pdata$bill),xlab="Bill",ylab="ECDF",main="ECDF plot for Bill",col=c('blue','green','red','yellow','black','pink','purple','orange','magenta'))
+```
+
+```{r}
+plot(ecdf(table(pdata$pizzas)),xlab="Pizzas",ylab="ECDF",main="ECDF plot for Pizzas",col=c('blue','green','red','yellow','black'))
+
+```
+```{r}
+plot(ecdf(pdata$temperature),xlab="Temperature",ylab="ECDF",main="ECDF plot for Temperature",col=c('blue','black','green','pink'))
+```
+```{r}
+plot(ecdf(pdata$time),xlab="Time",ylab="ECDF",main="ECDF plot for Time",col=c('blue','green','red','yellow','black','pink','purple','orange','magenta'))
+```
+
+
+Kernel Density Plots
+```{r}
+#Gaussian
+ plot(density(pdata$time, kernel = 'gaussian', bw = 0.5))
+
+```
+```{r}
+#Rectangular
+plot(density(pdata$time, kernel = 'rectangular', bw = 2.5))
+```
+```{r}
+#Epanechnikov
+plot(density(pdata$discount_customer, kernel = 'epanechnikov', bw = 1.5))
+```
+```{r}
+#With different bws
+#Gaussian
+ plot(density(pdata$time, kernel = 'gaussian', bw = 0.05))
+
+```
+```{r}
+
+#Rectangular
+plot(density(pdata$time, kernel = 'rectangular', bw = 105))
+```
+```{r}
+#Epanechnikov
+plot(density(pdata$got_wine, kernel = 'epanechnikov', bw = 0.2))
+```
+Barplots
+```{r}
+barplot(table(pdata$day), xlab="Day", ylab="Count", main="Bar plot of Day",col=c('#001199','#00FF00','#FF0000','brown','yellow','pink','black'))
+```
+```{r}
+barplot(table(pdata$branch), xlab="Branch", ylab="Count", main="Bar plot of Branch",col=c('#001199','#00FF00','#FF0000'))
+```
+```{r}
+barplot(table(pdata$driver), xlab="Driver", ylab="Count", main="Bar plot of Driver",col=c('#001199','#00FF00','#FF0000','black','pink'))
+```
+PieCharts :
+```{r}
+pie(table(pdata$branch), labels=names(table(pdata$branch)), main="Pie Chart of Branch",col=c('#001199','#00FF00','#FF0000'))
+```
+
+```{r}
+pie(table(pdata$operator), labels=names(table(pdata$operator)), main="Pie Chart of Operators",col=c('violet','green'))
+```
+```{r}
+pie(table(pdata$driver), labels=names(table(pdata$driver)), main="Pie Chart of drivers",col=c('violet','green','black','yellow','red'))
+```
+Histograms
+```{r}
+ hist(pdata$time)
+```
+```{r}
+ hist(pdata$time,freq = TRUE)
+```
+```{r}
+hist(pdata$time,freq = FALSE)
+```
+```{r}
+hist(pdata$temperature)
+```
+```{r}
+hist(pdata$temperature,freq=FALSE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

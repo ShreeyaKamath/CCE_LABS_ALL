@@ -1,0 +1,187 @@
+---
+title: "R Notebook For Hypothesis Testing- Shreeya Kamath : 220953004 ; CCE c "
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+
+```{r}
+
+#Hypothesis Testing For Location Parameter
+#ONE sample Gauss Test
+#One sample z-test
+#Hypothesized population mean
+population_mean <- 2
+
+# Sample size
+ sample_size <- 20
+ sample_mean=1.97
+ sample_sd =0.1
+ 
+#Calculate Z test statistic
+ z_stat <- (sample_mean-population_mean)/(sample_sd/sqrt(sample_size))
+ 
+ z_stat
+ 
+  p_value <- 2 * (1- pnorm(abs(z_stat)))
+ # Display the p-value
+ print(p_value)
+```
+
+```{r}
+#Given the sample
+ sample = c(1.2, 1.45, 2.1, 1.78, 1.3, 2.2, 1.98, 1.7, 1.67, 2.4)
+ population_mean <- 2
+ # Sample size
+ sample_size <- length(sample)
+ sample_mean=mean(sample)
+ sample_sd =sd(sample)
+ z_stat
+ # Calculate the Z test statistic
+ z_stat <- (sample_mean- population_mean) / (sample_sd / sqrt(sample_size))
+ 
+  p_value <- 2 * (1- pnorm(abs(z_stat)))
+ # Display the p-value
+ print(p_value)
+```
+```{r}
+#Using Z test function from BSDA package
+ library(BSDA)
+ #perform one sample z-test
+ z.test(sample, mu=2, sigma.x=0.1)
+```
+```{r}
+#Unknown variance one sample
+ t.test(sample, mu=2)
+```
+```{r}
+ #Two sample one tailed test (unknown varaince)
+ #Syntax
+
+ x=c(10,12,13,16,11,13,14,15)
+ y=c(9,8,7,5,4,10,11,12)
+ t.test(x,y,alternative = 'greater')
+```
+```{r}
+ #Two sample two tailed test
+
+ x=c(10,12,13,16,11,13,14,15)
+ y=c(9,8,7,5,4,10,11,12)
+ t.test(x,y,alternative = 'two.sided')
+```
+
+
+```{r}
+ #Two sample Known varaince
+
+ cityA = c(82, 84, 85, 89, 91, 91, 92, 94, 99, 99,
+ 105, 109, 109, 109, 110, 112, 112, 113, 114, 114)
+ cityB = c(90, 91, 91, 91, 95, 95, 99, 99, 108, 109,
+ 109, 114, 115, 116, 117, 117, 128, 129, 130, 133)
+```
+
+
+```{r}
+ #perform two sample z-test
+ z.test(x=cityA, y=cityB, mu=0, sigma.x=15, sigma.y=15)
+ #z.test(x=cityA, y=cityB, mu=0,alternative = 'two.sided')
+```
+
+
+```{r}
+# paired T test
+ pre <- c(85, 78, 92, 91, 72, 84, 99, 90, 96, 84)
+ post <- c(88, 90, 93, 91, 80, 97, 100, 93, 91, 90)
+ t.test(pre, post, paired = TRUE)
+```
+
+
+```{r}
+ x <- c(512,530,498,540,521,528,505,523)
+ y <- c(499,500,510,495,515,503,490,511)
+ t.test(x,y,alternative='greater')
+
+```
+
+
+```{r}
+ #Parametric Tests for Probabilities
+ #One-Sample Binomial Test for the Probability p
+
+ #Take decision based on the probability value.
+ qbinom(p=0.95, prob=0.3, size=2000)
+```
+
+
+```{r}
+ binom.test(c(700,1300),p=0.3,alternative='greater')
+```
+
+
+```{r}
+ binom.test(x=700,n=2000,p=0.3, alternative='greater')
+```
+
+
+```{r}
+ binom.test(x=700,n=2000,p=0.3, alternative='less')
+```
+
+
+
+
+
+```{r}
+ #Two-Sample Binomial Test
+ # Example data
+ successes <- c(14, 13) # Number of successes in each group
+ trials <- c(63, 45)
+ # Number of trials in each group
+ # Perform the two-sample binomial test
+ result <- prop.test(successes, trials)
+ # View the result
+ print(result)
+```
+
+
+```{r}
+#Nonparamatric Test
+ #Wilcoxon–Mann–Whitney (WMW) U-Test
+ coffee <- c(3.7, 4.9, 5.2, 6.3, 7.4,4.4,5.3,1.7, 2.9)
+ water <- c(4.5, 5.1, 6.2,7.3,8.7,4.2,3.3,9.9,2.6, 4.8)
+ wilcox.test(coffee, water)
+```
+
+
+```{r}
+# X2-Goodness of Fit Test
+ chisq.test(c(315, 108, 101, 32),
+ p=c(9/16,3/16,3/16,1/16))
+```
+
+
+```{r}
+qchisq(df=3, p=0.95)
+```
+
+
+```{r}
+# Solution to Que 10.4
+x <- c(91,101,42,99,108,88,89,105,111,104)
+y <- c(261,47,40,29,64,6,87,47,98,351)
+t.test(x,y,alternative= 'greater')
+
+```
+
+```{r}
+x <- c(91,101,42,99,108,88,89,105,111,104)
+y <- c(261,47,40,29,64,6,87,47,98,351)
+wilcox.test(x,y)
+```
+

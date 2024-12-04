@@ -1,0 +1,401 @@
+---
+title: 'Practical 1 : R Basics'
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+Shreeya Kamath
+220953004
+CCE C
+
+ R as a Calculator,Basic Data Structures and Arithmetic Operations
+ 
+```{r}
+#help page for a command
+?mean 
+```
+
+```{r}
+#Application examples
+example(mean)
+```
+```{r}
+#Combine numbers to vectors
+c(1,2,3,4,5)
+```
+```{r}
+#Assign vector to an object
+x <- c(1,12,22,32)
+```
+
+```{r}
+#Generate sequence of numbers
+seq(1,10)
+
+rep(1,10) #repeats
+```
+
+```{r}
+#Numeric Vectors
+
+x <- vector(mode="numeric", length = 5) 
+
+#To access the elements
+x[3] <- 4
+print(x)
+```
+
+```{r}
+#Logical Vectors
+ x.log <- vector(mode="logical", length=4)
+ x.log[1] = x.log[3] = x.log[4] = TRUE
+ mean(x.log)
+```
+```{r}
+#Matrix
+
+x <- matrix( nrow=4, ncol=2, data=1:8, byrow=T ) # Creates 4x2 MATRIX
+
+print(x)
+```
+```{r}
+#Arrays
+
+ x <- array(data=1:12, dim=c(3,2,2) )
+print(x)
+```
+```{r}
+#List
+ x <- list(one=c(1,2,3,4,5),two=c("Hello", "world", "!"))
+x$one
+x$two
+x[[2]]
+```
+
+```{r}
+#To save a data frame in a file
+
+write.csv(x=dat,file="toy.csv",row.names=FALSE)
+read.dat <- read.csv(file="toy.csv")
+read.dat
+```
+```{r}
+#To access individual elements in dataframe
+dat$Age
+```
+```{r}
+#Factor command for nominal variables
+#Ordered command for ordinal variables
+
+sex <- factor(c("female", "male", "male", "female", "female"))
+
+
+grade <- ordered(c("low", "medium", "low", "high", "high"),
+                 levels = c("low", "medium", "high"))
+
+
+print(sex)
+print(grade)
+
+ 
+```
+```{r}
+#Basic Arithmetic Operators
+ 2^3
+ 2**3
+ 2^0.5
+ 
+ #Recycling property of R 
+ 
+c(2,3,5,7)^2
+ c(2,3,5,7)^c(2,3)
+ c(1,2,3,4,5,6)^c(2,3,4)
+  c(2,3,5,7)^c(2,3,4)
+
+```
+```{r}
+#More Indexing
+
+# Selecting elements using vectors of positive numbers (letters and LETTERS show the 26 letters of the alphabet)
+ letters[1:3]
+ letters[ c(2,4,6) ]
+```
+```{r}
+ # Selecting elements using logical vectors
+ x <- 1:10 # numbers 1 to 10
+ x[ (x>5) ]  # selecting any number >5
+ x[ (x%%2==0) ]  # numbers that are divisible by 2
+ x[(x%%2==1)]  # numbers that are not divisible by 2
+ x[5] <- NA   # 5th element of x is defined
+ x                # to be missing (NA)
+ y <- x[!is.na(x)] # all x which are not missing
+ y
+```
+```{r}
+ # Selecting (deleting) elements using negative numbers
+ x <- 1:10
+ x[-(1:5)]
+# x, but delete first five entries of x
+```
+```{r}
+# Selecting elements using characters
+ x <- c(Water=1, Juice=2, Lemonade=3 )
+ names(x)
+ x["Juice"]
+
+```
+```{r}
+#Standard Functions
+ # Absolute value
+abs(-1)   # Output: 1
+
+# Square root
+sqrt(4)   # Output: 2
+
+# Rounding, floor, and ceiling
+round(5.789, digits = 2)  # Rounds to 2 decimal places: 5.79
+floor(5.3)  # Output: 5 (rounds down)
+ceiling(5.3)  # Output: 6 (rounds up)
+
+# Sum and product
+sum(c(1, 2, 3, 4, 5))   # Sum of the vector: 15
+prod(c(1, 2, 3, 4, 5))  # Product of the vector: 120
+
+# Logarithms
+log(100)       # Natural logarithm (ln): log base e of 100
+log10(100)     # Log base 10: Output: 2
+log2(32)       # Log base 2: Output: 5
+
+# Exponential function
+exp(2)    # e^2: Output: 7.389056
+
+# Trigonometric functions
+sin(pi / 2)   # Output: 1 (sin(90 degrees))
+cos(pi)       # Output: -1 (cos(180 degrees))
+tan(pi / 4)   # Output: 1 (tan(45 degrees))
+
+# Inverse trigonometric functions
+asin(1)       # Output: pi/2 or 1.570796 (arcsin of 1 is 90 degrees)
+acos(-1)      # Output: pi or 3.141593 (arccos of -1 is 180 degrees)
+atan(1)       # Output: pi/4 or 0.785398 (arctan of 1 is 45 degrees)
+
+# Hyperbolic functions
+sinh(1)       # Output: 1.175201 (sinh of 1)
+cosh(1)       # Output: 1.543081 (cosh of 1)
+tanh(1)       # Output: 0.761594 (tanh of 1)
+
+# Inverse hyperbolic functions
+asinh(1)      # Output: 0.881374 (inverse sinh of 1)
+acosh(2)      # Output: 1.316958 (inverse cosh of 2)
+atanh(0.5)    # Output: 0.549306 (inverse tanh of 0.5)
+
+```
+```{r}
+#Statistical Functions
+ min(2, 6.7, 1.2, 8.0) #Gives minimum
+max(2, 6.7, 1.2, 8.0) #max
+ mean( c(1,2,5,6) ) #mean
+  var( c(1,2,5,6) ) #variance
+  
+```
+```{r}
+#Example
+age.v <- c(25,30,35,40)
+income.v <- c(2000, 2500, 2800, 3200)
+ #variance
+  var(cbind(age.v, income.v))
+#Covariance
+  cov(cbind(age.v, income.v))
+#Correlation
+  cor(cbind(age.v, income.v))
+# The Spearman rank correlation is perfectly 1, since both vectors are in increasing order
+   cor(cbind(age.v, income.v), method="spearman")
+```
+```{r}
+#MORE USEFUL FUNCTIONS
+
+#Cumulative sum and product
+ x <- c( 1,3, 2, 5)
+ cumsum(x)
+ cumprod(x)
+ 
+ 
+```
+```{r}
+#Factorial 
+factorial(5)
+
+```
+```{r}
+#Binomial coefficient
+ choose(4,2)
+```
+```{r}
+#Math constants
+pi
+Inf
+NaN #Not a number
+0/0
+
+NA #Missing values
+NULL #empty set
+
+
+```
+```{r}
+#Assignment operator
+ my.function <- function(x,a=1,b=1,c=1,d=1){
+ h <- a+b*x+c*x^2+d*x^3
+ return(h)
+ }
+
+ my.function(2)
+ 
+  my.function(x=2, a=4, b=3)
+```
+```{r}
+#Loops and conditions
+ x <- 1:10
+ for(i in 1:10){
+ if(x[i]>5){x[i] <- x[i]+i}
+ }
+ x
+```
+
+```{r}
+#Statistical functions
+
+ library(MASS)
+ painters
+```
+```{r}
+#Summary
+ summary(painters)
+```
+
+```{r}
+#on one variable
+ summary(painters$School)
+```
+```{r}
+#Accessing subgroups in data frames
+ subset(painters, School=="F")
+```
+
+```{r}
+#restrict to first two variables
+ painters[ painters[["School"]] == "F", c(1,2)]
+
+```
+
+
+```{r}
+# This is a more elegant method than selecting these observations by specifying a condition in squared brackets via the [rows,columns] argument.
+painters[ painters[["School"]] == "F", ]
+```
+
+
+```{r}
+ subset(painters,Composition<=6)
+```
+
+```{r}
+#To eliminate uninteresting columns
+ subset(painters,School=="F",select=c(-3,-5))
+```
+
+```{r}
+# those painters with a drawing score between 6 and 9
+ subset(painters,Drawing%in%c(6,7,8,9)&Composition==10)
+```
+
+```{r}
+# Stratifying a Data Frame and Applying Commands to a List
+
+ splitted<-split(painters,painters$School)
+ splitted$A
+```
+
+```{r}
+#Splitted is a list
+ is.list(splitted)
+```
+```{r}
+#splitted$A is a data frame
+is.data.frame(splitted$A)
+```
+
+```{r}
+#apply function to a list
+lapply(splitted, summary)
+```
+
+```{r}
+#Sorting,Ranking,Finding Duplicates and Unique Values
+#Sorting a vector
+ x <- c( 1,3, 2, 5)
+ sort(x)
+ sort(x, decreasing=TRUE)
+```
+```{r}
+#calculating ranks
+ x <- c( 10,30, 20, 50, 20)
+ rank(x)
+```
+```{r}
+#Finding duplicates
+ x <- c( 1,3, 2, 5, 2)
+ duplicated(x)
+```
+```{r}
+#Removing duplicates
+ x <- c( 1,3, 2, 5, 2)
+ unique(x)
+```
+```{r}
+# Categorizing Numeric Variables
+ x <- c(1.3, 1.5, 2.5, 3.8, 4.1, 5.9, 7.1, 8.4, 9.0)
+ xdiscrete <- cut(x, breaks=c(-Inf, 2, 5, 8, Inf) )
+ is.factor(xdiscrete)
+ xdiscrete
+ table(xdiscrete)
+```
+
+```{r}
+#Random Variables
+# returns the value of the density function (i.e. P(X = x))ofaN(0,1)-distribution at x = 0, which is 1/√2π.
+ dnorm(x=0)
+```
+```{r}
+# returns thevalueoftheCDFofa N(0,1)-distributionatq,i.e.Φ(q) = P(X ≤ q).
+ pnorm(q=0)
+ pnorm(q=1.96)
+```
+```{r}
+# which is the 95%-quantile of a N(0,1)-distribution.
+ qnorm(p=0.95)
+```
+
+```{r}
+# returns a vector of four normal random numbers of a N(0,1) distribution:
+ X <- rnorm(n=4)
+X
+```
+
+```{r}
+ set.seed(89234512)
+ X <- rnorm(n=4)
+ X
+```
+
+
+
+
+
+
+
+
+
+
